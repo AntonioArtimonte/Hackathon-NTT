@@ -1,0 +1,1 @@
+from .image_controller import process_image
