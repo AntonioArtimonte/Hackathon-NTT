@@ -1,0 +1,10 @@
+service: backend.services.my_service:svc
+
+include:
+  - backend/**
+  - models/**
+
+python:
+  packages:
+    - numpy
+    - bentoml
