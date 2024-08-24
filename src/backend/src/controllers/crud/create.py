@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 # Eu nao fiz isso sla como funciona fé
-async def create(lat, long, survivors):
+async def create(lat, long, survivors, peso):
     try:
         db_path = "database/db.json"
 
@@ -20,6 +20,7 @@ async def create(lat, long, survivors):
             "LAT": lat,
             "LONG": long,
             "Survivors": survivors,
+            "Peso": peso,
             "Time": current_time, 
         }
 

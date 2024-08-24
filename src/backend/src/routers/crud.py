@@ -60,8 +60,9 @@ async def create_record(
     lat: float = Body(...),
     long: float = Body(...),
     survivors: int = Body(...),
+    peso: int = Body(...),
 ):
     try:
-        return await create(lat, long, survivors)
+        return await create(lat, long, survivors, peso)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
