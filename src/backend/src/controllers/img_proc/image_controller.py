@@ -6,6 +6,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from ultralytics import YOLO
 import tinydb
+import datetime
 
 # Carrega o modelo Yolo pré treinado
 model = YOLO("../yoloModel/antoniomodel.pt")
@@ -77,6 +78,8 @@ async def process_image(data: ImageData):
                     result_var = "Detectado sobrevivente"
                     break
 
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         # Salva na base de dados
         new_entry = {
             "ID": id,
@@ -85,6 +88,7 @@ async def process_image(data: ImageData):
             "Proc_img": annotated_image_base64,
             "Survivors": result_var,
             "Peso": (float(box.conf) * 100),
+            "Time": current_time,
         }
         db.insert(new_entry)
         db.close()
@@ -96,6 +100,7 @@ async def process_image(data: ImageData):
             "Proc_img": annotated_image_base64,
             "Survivors": result_var,
             "Peso": (float(box.conf) * 100),
+            "Time": current_time,
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
