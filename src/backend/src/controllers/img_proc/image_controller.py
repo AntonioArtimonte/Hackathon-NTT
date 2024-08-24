@@ -15,7 +15,7 @@ model = YOLO("../yoloModel/antoniomodel.pt")
 
 def get_next_id():
     try:
-        db = tinydb.TinyDB("../database/db.json")
+        db = tinydb.TinyDB("database/db.json")
         max_id = max(item.get("ID", 0) for item in db.all())
         db.close()
         return max_id + 1
@@ -49,7 +49,7 @@ class ImageData(BaseModel):
 
 async def process_image(data: ImageData):
     try:
-        db = tinydb.TinyDB("../database/db.json")
+        db = tinydb.TinyDB("database/db.json")
         id = get_next_id()
         # Decodifica a imagem em formato base64
         image_data = base64.b64decode(data.image)
@@ -80,8 +80,9 @@ async def process_image(data: ImageData):
         # Salva na base de dados
         new_entry = {
             "ID": id,
-            "LAT": "v1.0",
-            "LONG": annotated_image_base64,
+            "LAT": "18.41294",
+            "LONG": "19.32131",
+            "Proc_img": annotated_image_base64,
             "Survivors": result_var,
             "Peso": (float(box.conf) * 100),
         }
@@ -90,8 +91,9 @@ async def process_image(data: ImageData):
 
         return {
             "ID": id,
-            "LAT": "v1.0",
-            "LONG": annotated_image_base64,
+            "LAT": "18.41294",
+            "LONG": "19.32131",
+            "Proc_img": annotated_image_base64,
             "Survivors": result_var,
             "Peso": (float(box.conf) * 100),
         }
