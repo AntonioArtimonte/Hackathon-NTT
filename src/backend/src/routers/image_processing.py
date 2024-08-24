@@ -10,6 +10,3 @@ async def process_image_endpoint(data: ImageData = Body(...)):
         return await process_image(data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-
-# A fazer com o modelo
