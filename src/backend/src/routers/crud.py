@@ -1,22 +1,24 @@
-from fastapi import APIRouter, HTTPException, Query, Body
+from fastapi import APIRouter, HTTPException, Body
 from controllers.crud.update import update
 from controllers.crud.delete import delete
 from controllers.crud.read import read, read_all
+from controllers.crud.create import create
 from typing import Optional
 
 router = APIRouter()
 
-# Rota /update que recebe um id e os campos que deseja atualizar
+# Route to update an entry by ID
 @router.patch("/update/{id}", status_code=200)
 async def update_by_id(
     id: int,
-    version: Optional[str] = Body(default=None),
-    image: Optional[str] = Body(default=None),
-    result: Optional[str] = Body(default=None),
+    lat: Optional[float] = Body(default=None),
+    long: Optional[float] = Body(default=None),
+    survivors: Optional[int] = Body(default=None),
+    time: Optional[str] = Body(default=None),
 ):
     update_data = {
         k: v
-        for k, v in {"version": version, "image": image, "result": result}.items()
+        for k, v in {"LAT": lat, "LONG": long, "Survivors": survivors, "Time": time}.items()
         if v is not None
     }
     try:
@@ -27,7 +29,7 @@ async def update_by_id(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Rota /delete que recebe um id e deleta o registro correspondente
+# Route to delete an entry by ID
 @router.delete("/delete/{id}", status_code=200)
 async def delete_by_id(id: int):
     try:
@@ -36,7 +38,7 @@ async def delete_by_id(id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Rota /read que retorna todos os registros
+# Route to read all entries
 @router.get("/read", status_code=200)
 async def read_all_records():
     try:
@@ -45,10 +47,21 @@ async def read_all_records():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Rota /read/{id} que retorna um registro específico
+# Route to read an entry by ID
 @router.get("/read/{id}", status_code=200)
 async def read_record_by_id(id: int):
     try:
         return await read(id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/create", status_code=200)
+async def create_record(
+    lat: float = Body(...),
+    long: float = Body(...),
+    survivors: int = Body(...),
+):
+    try:
+        return await create(lat, long, survivors)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
