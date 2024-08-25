@@ -105,12 +105,12 @@ const Predict: React.FC = () => {
               }}
               className="absolute"
             >
-              <div className='flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-lg'>
+              <div className='flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'>
                 <h1 className='text-4xl mb-4'>Enviar Imagem</h1>
                 <form onSubmit={handleSubmit} className="flex border-2 border-black rounded-xl items-center">
                   <label 
                     htmlFor="file-upload" 
-                    className="bg-gray-700 text-white text-lg py-2 px-8 rounded-l-lg cursor-pointer">
+                    className="bg-gray-700 text-white text-lg py-2 px-8 rounded-l-lg cursor-pointer hover:text-black duration-500">
                     Arquivo
                   </label>
                   <input
@@ -125,7 +125,7 @@ const Predict: React.FC = () => {
                       <div className="text-lg">{file.name}</div>
                     </p>
                   )}
-                  <button type='submit' className='bg-black text-white text-lg py-2 px-10 rounded-r-lg'>
+                  <button type='submit' className='bg-black text-white text-lg py-2 px-10 rounded-r-lg hover:text-gray-700 duration-500'>
                     Enviar
                   </button>
                 </form>
@@ -142,9 +142,9 @@ const Predict: React.FC = () => {
                 opacity: shouldAnimate ? 1 : 0,
                 zIndex: shouldAnimate ? 20 : 10,
               }}
-              className="absolute mb-10"
+              className="absolute mb-10 rounded-xl"
             >
-              <div className='flex flex-col justify-center items-center shadow-lg'>
+              <div className='flex flex-col justify-center items-center rounded-[30px] shadow-[0_0_100px_rgba(255,255,255,0.5)]'>
                 <div style={{ position: 'relative', display: 'inline-block'}}>
                   <button
                     onClick={handleCloseImage}
@@ -169,7 +169,7 @@ const Predict: React.FC = () => {
                       src={`data:image/png;base64,${annotatedImage}`}
                       alt="Processed"
                       style={{
-                        borderRadius: '16px',
+                        borderRadius: '30px',
                         maxWidth: '100%',
                       }}
                       className="processed-image"

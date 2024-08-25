@@ -10,7 +10,7 @@ export default function Navbar() {
             <h1 className="text-white text-2xl font-normal hover:text-gray-700 duration-500 cursor-pointer" onClick={() => navigate('/predict')} >Prever</h1>
             </div>
             <div>
-            <h1 className="text-white text-2xl font-normal hover:text-gray-700 duration-500 cursor-pointer">Gerar Dados</h1>
+            <h1 className="text-white text-2xl font-normal hover:text-gray-700 duration-500 cursor-pointer" onClick={() => navigate('/gallery')}>Galeria</h1>
             </div>
             <div>
             <h1 className="text-white text-2xl font-normal hover:text-gray-700 duration-500 cursor-pointer">Gerar Rotas</h1>
