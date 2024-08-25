@@ -18,7 +18,7 @@ const Predict: React.FC = () => {
         formData.append('file', file);
 
         try {
-        const response = await fetch('http://localhost:8000/upload', {
+        const response = await fetch('http://localhost:8000/api/image_processing/process_image', {
             method: 'POST',
             body: formData,
         });
@@ -41,16 +41,27 @@ const Predict: React.FC = () => {
         <Navbar />
         <div className="flex flex-grow justify-center gap-x-8 items-center">
             <div className='flex flex-col justify-center items-center rounded-2xl p-44 bg-white'>
-                <h1 className='text-4xl mb-4'>Upload Image</h1>
-                <form onSubmit={handleSubmit}>
+                <h1 className='text-4xl mb-4'>Enviar Imagem</h1>
+                <form onSubmit={handleSubmit} className="flex border-2 border-black rounded-xl items-center">
+                    <label 
+                    htmlFor="file-upload" 
+                    className="bg-gray-700 text-white text-lg py-2 px-8 rounded-l-lg cursor-pointer">
+                    Arquivo
+                    </label>
                     <input
+                    id="file-upload"
                     type='file'
                     accept='image/*'
                     onChange={handleFileChange}
-                    className='mb-4'
+                    className='hidden'
                     />
-                    <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded'>
-                    Submit
+                    {file && (
+                    <p className="text-black py-2 px-4">
+                        <div className="text-lg">{file.name}</div>
+                    </p>
+                    )}
+                    <button type='submit' className='bg-black text-white text-lg py-2 px-10 rounded-r-lg'>
+                    Enviar
                     </button>
                 </form>
             </div>
