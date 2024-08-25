@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App'
 import Landing from './pages/LandingPage'
+import Predict from './pages/Predict'
 import './index.css'
+import DetectSounds from './pages/DetectSounds/DetectSounds'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -11,6 +13,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/main" element={<App />} />
+        <Route path="/predict" element={<Predict />} />
+        <Route path="/detect-sound" element={<DetectSounds/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
