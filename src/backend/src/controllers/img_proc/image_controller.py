@@ -6,7 +6,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from ultralytics import YOLO
 import tinydb
-import datetime
+from datetime import datetime
 
 # Carrega o modelo Yolo pré treinado
 model = YOLO("../yoloModel/antoniomodel.pt")
@@ -25,7 +25,7 @@ def get_next_id():
 
 
 # Função para converter resultados em um JSON com um limite minimo de 0.7 de "confidence"
-def results_to_json(results, model, confidence_threshold=0.4):
+def results_to_json(results, model, confidence_threshold=0.3):
     detections = []
     for result in results:
         for box in result.boxes:
@@ -62,7 +62,7 @@ async def process_image(data: ImageData):
             raise HTTPException(status_code=400, detail="Error loading image.")
 
         # Roda o YoloV8 na imagem
-        results = model(image, conf=0.70)
+        results = model(image, conf=0.30)
 
         # Adiciona as anotações a imagem
         annotated_image = results[0].plot()
