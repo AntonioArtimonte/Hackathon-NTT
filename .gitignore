@@ -8,6 +8,8 @@ logs
 **/*.backup.*
 **/*.back.*
 
+temp_audio.wav
+
 node_modules
 bower_components
 
