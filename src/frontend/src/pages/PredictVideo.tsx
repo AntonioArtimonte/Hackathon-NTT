@@ -97,7 +97,7 @@ const Predict: React.FC = () => {
         </div>
       </div>
 
-      <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
+      <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)}/>
     </div>
   );
 };

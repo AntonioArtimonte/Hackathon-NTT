@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Body
-from controllers.img_proc.image_controller import thermal_image, ImageData
+from controllers.img_proc.thermal_image import process_thermal, ImageData
 
 router = APIRouter()
 
@@ -7,6 +7,6 @@ router = APIRouter()
 @router.post("/process_thermal", status_code=200)
 async def process_image_endpoint(data: ImageData = Body(...)):
     try:
-        return await thermal_image(data)
+        return await process_thermal(data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
