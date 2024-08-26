@@ -27,13 +27,13 @@ google-pasta==0.2.0
 grpcio==1.66.0
 h11==0.14.0
 h5py==3.11.0
-idna==3.8
 immutabledict==4.2.0
 ipykernel==6.29.5
 ipython==8.26.0
 jedi==0.19.1
 Jinja2==3.1.4
 joblib==1.4.2
+protobuf==3.20.3
 jupyter_client==8.6.2
 jupyter_core==5.7.2
 keras==3.5.0
@@ -73,7 +73,6 @@ opencv-python==4.10.0.84
 opencv-python-headless==4.10.0.84
 opt-einsum==3.3.0
 optree==0.12.1
-ortools==9.10.4067
 packaging==24.1
 pandas==2.2.2
 parso==0.8.4
@@ -82,7 +81,6 @@ pillow==10.4.0
 platformdirs==4.2.2
 pooch==1.8.2
 prompt_toolkit==3.0.47
-protobuf==4.25.4
 psutil==6.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
