@@ -95,7 +95,6 @@ async def process_image(data: ImageData):
             }
         
 
-
         # Salva na base de dados
 
         db.insert(new_entry)
