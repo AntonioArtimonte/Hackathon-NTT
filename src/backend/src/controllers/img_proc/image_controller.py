@@ -9,7 +9,7 @@ import tinydb
 from datetime import datetime
 
 # Carrega o modelo Yolo pré treinado
-model = YOLO("../yoloModel/antoniomodel.pt")
+model = YOLO("../yoloModel/ModelPcLab300Epochs.pt")
 
 # Abre a base de dados
 
