@@ -81,7 +81,7 @@ async def process_image(data: ImageData):
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 new_entry = {
                     "ID": id,
-                    "LAT": "18.41294",
+                    "LAT": "48.41294",
                     "LONG": "19.32131",
                     "Proc_img": annotated_image_base64,
                     "Survivors": result_var,
@@ -102,7 +102,7 @@ async def process_image(data: ImageData):
 
         return {
             "ID": id,
-            "LAT": "18.41294",
+            "LAT": "48.41294",
             "LONG": "19.32131",
             "Proc_img": annotated_image_base64,
             "Survivors": result_var,
