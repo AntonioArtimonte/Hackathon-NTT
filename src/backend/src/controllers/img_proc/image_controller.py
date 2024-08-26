@@ -71,22 +71,24 @@ async def process_image(data: ImageData):
         _, buffer = cv2.imencode(".jpg", annotated_image)
         annotated_image_base64 = base64.b64encode(buffer).decode("utf-8")
 
-        result_var = "Nada detectado"
+        result_var = 0
         if results and results[0].boxes:
             for box in results[0].boxes:
                 if model.names[int(box.cls)] == "person":
-                    result_var = "Detectado sobrevivente"
-                    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    new_entry = {
-                        "ID": id,
-                        "LAT": "18.41294",
-                        "LONG": "19.32131",
-                        "Proc_img": annotated_image_base64,
-                        "Survivors": result_var,
-                        "Peso": (float(box.conf) * 100),
-                        "Time": current_time,
-                    }
-                    break
+                    result_var += 1
+            if result_var > 0:
+
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                new_entry = {
+                    "ID": id,
+                    "LAT": "18.41294",
+                    "LONG": "19.32131",
+                    "Proc_img": annotated_image_base64,
+                    "Survivors": result_var,
+                    "Peso": (float(box.conf) * 100),
+                    "Time": current_time,
+                        }
+                    
         else:
             return {
                 "Person": "Nihil"

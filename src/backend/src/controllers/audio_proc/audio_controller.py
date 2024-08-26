@@ -64,7 +64,7 @@ class AudioAnalyzer:
                     "ID": id,
                     "LAT": "18.41294",
                     "LONG": "19.32131",
-                    "Survivors": "yes",
+                    "Survivors": 1,
                     "Peso": 100,
                     "Time": current_time,
                 }
@@ -74,7 +74,7 @@ class AudioAnalyzer:
                     "ID": id,
                     "LAT": "18.41294",
                     "LONG": "19.32131",
-                    "Survivors": "yes",
+                    "Survivors": 1,
                     "Peso": 100,
                     "Time": current_time,
                 }
