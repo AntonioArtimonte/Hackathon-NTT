@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
 
+import { Buffer } from 'buffer';
+
 const DetectSounds: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [selectedFile, setSelectedFile] = useState<string | undefined>(
@@ -19,15 +21,18 @@ const DetectSounds: React.FC = () => {
     event.preventDefault();
     if (!file) return;
     const bufferFile = await file.arrayBuffer();
-    const fileBase64 = Buffer.from(bufferFile).toString('base64');
+    const fileBase64 = Buffer.from(bufferFile).toString('base64'); // Buffer is now defined
     try {
       const response = await fetch("http://localhost:8000/api/audio_processing/analyze_audio", {
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json', // Add headers to specify JSON payload
+        },
         body: JSON.stringify({ audio_base64: fileBase64 }),
       });
-
+  
       if (response.ok) {
-        console.log(response.body)
+        console.log(await response.json()); // Retrieve and log the response body
         console.log("Audio uploaded successfully!");
       } else {
         console.error("Failed to upload audio.");
@@ -36,6 +41,7 @@ const DetectSounds: React.FC = () => {
       console.error("Error:", error);
     }
   };
+  
 
   return (
     <div className="h-screen bg-black flex flex-col">

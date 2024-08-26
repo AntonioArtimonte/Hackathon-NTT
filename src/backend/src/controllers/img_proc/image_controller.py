@@ -76,6 +76,7 @@ async def process_image(data: ImageData):
             for box in results[0].boxes:
                 if model.names[int(box.cls)] == "person":
                     result_var = "Detectado sobrevivente"
+                    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     new_entry = {
                         "ID": id,
                         "LAT": "18.41294",
@@ -91,7 +92,7 @@ async def process_image(data: ImageData):
                 "Person": "Nihil"
             }
         
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
         # Salva na base de dados
 
