@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Modal from '../components/Modal';
 
-const Predict: React.FC = () => {
+const PredictVideo: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [annotatedImage, setAnnotatedImage] = useState<string | null>(null);
@@ -190,4 +190,4 @@ const Predict: React.FC = () => {
   );
 };
 
-export default Predict;
+export default PredictVideo;
