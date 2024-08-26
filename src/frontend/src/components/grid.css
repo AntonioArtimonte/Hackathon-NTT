@@ -1,0 +1,39 @@
+/* custom-resize.css */
+
+.react-resizable-handle {
+    cursor: pointer !important; /* Change this to your desired cursor */
+  }
+  
+  .react-resizable-handle-s {
+    cursor: pointer !important; /* Change this to your desired cursor */
+  }
+  
+  .react-resizable-handle-w {
+    cursor: pointer !important; /* Change this to your desired cursor */
+  }
+  
+
+  /* Custom styles for react-grid-layout */
+.react-grid-item {
+    transition: background-color 0.2s ease;
+  }
+  
+  .react-grid-item > div {
+    background-color: #ffffff; /* Card background color */
+  }
+  
+  .react-grid-placeholder {
+    background-color: #f0f0f0 !important; /* Placeholder background color when dragging */
+    border-radius: 8px;
+  }
+/* grid.css */
+
+ /* gallery.css */
+.gallery-container {
+    min-height: 100vh; /* Ensure the background takes up at least the full viewport height */
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+  }
+  
+    
