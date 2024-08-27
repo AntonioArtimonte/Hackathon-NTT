@@ -261,12 +261,13 @@ const Predict: React.FC = () => {
             max-width: 100%;
             max-height: 80vh; /* Ensure image doesn't overflow vertically */
             border-radius: 20px;
+            transition: opacity 0.5s ease;
           }
 
           .close-button {
             position: absolute;
             top: 10px;
-            right: 20px;
+            right: 10px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -274,6 +275,10 @@ const Predict: React.FC = () => {
             font-weight: bold;
             color: white;
             z-index: 30;
+          }
+
+          .close-button:hover + img {
+            opacity: 0.5;
           }
         `}
       </style>
@@ -380,24 +385,51 @@ const Predict: React.FC = () => {
         </div>
       </div>
 
-      {/* Processed Image Card */}
-      {showProcessedCard && (
-        <div className="processed-image-container">
-          <button
-            onClick={handleCloseImage}
-            className="close-button"
-          >
-            &times;
-          </button>
-          {annotatedImage && (
-            <img
-              src={`data:image/png;base64,${annotatedImage}`}
-              alt="Processed"
-              className="processed-image"
-            />
-          )}
-        </div>
-      )}
+      <div
+              style={{
+                transition: 'transform 0.7s ease-in-out, opacity 0.7s ease-in-out',
+                transform: shouldAnimate ? 'scale(0.55)' : 'scale(0.25)',
+                opacity: shouldAnimate ? 1 : 0,
+                zIndex: shouldAnimate ? 20 : 10,
+              }}
+              className="absolute mb-10 rounded-xl"
+            >
+              <div className='flex flex-col justify-center items-center rounded-[30px] shadow-[0_0_100px_rgba(255,255,255,0.5)]'>
+                <div style={{ position: 'relative', display: 'inline-block'}}>
+                  <button
+                    onClick={handleCloseImage}
+                    className="close-button"
+                    style={{
+                      position: 'absolute',
+                      top: '0px',
+                      right: '20px',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '3rem',
+                      fontWeight: 'bold',
+                      color: 'black',
+                      zIndex: 30,
+                    }}
+                  >
+                    &times;
+                  </button>
+                  {annotatedImage ? (
+                    <img
+                      src={`data:image/png;base64,${annotatedImage}`}
+                      alt="Processed"
+                      style={{
+                        borderRadius: '30px',
+                        maxWidth: '100%',
+                      }}
+                      className="processed-image"
+                    />
+                  ) : (
+                    <p>No image processed yet.</p>
+                  )}
+                </div>
+              </div>
+            </div>
 
       {/* Success Modal */}
       <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} message="Seu arquivo foi enviado e processado com sucesso!" />
