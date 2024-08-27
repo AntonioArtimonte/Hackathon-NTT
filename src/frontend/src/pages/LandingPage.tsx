@@ -62,7 +62,7 @@ const LandingPage: React.FC = () => {
         <div className="flex justify-between w-full">
 
           <div className="flex flex-col justify-center w-1/2 h-full text-center items-center">
-            <img src="/coruja3.svg" alt="" className='mb-36 scale-[1.55] hover:scale-[1.65] duration-500'/>
+            <img src="/coruja3.svg" alt="" className='mb-36 scale-[1.55] hover:scale-[1.65] duration-500' onClick={() => navigate('/predict')}/>
             <h1 className="text-white text-4xl font-bold">Veja o que seus olhos não veem</h1>
           </div>
 
