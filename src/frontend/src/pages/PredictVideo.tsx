@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Modal from '../components/Modal';
 
-const Predict: React.FC = () => {
+const PredictVideo: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [processedVideo, setProcessedVideo] = useState<string | null>(null);
@@ -59,47 +59,50 @@ const Predict: React.FC = () => {
       <Navbar />
       <div className="flex flex-grow justify-center items-center">
         <div className="relative w-full h-full flex justify-center items-center">
-          <form onSubmit={handleSubmit} className="flex border-2 border-black rounded-xl items-center p-10 bg-white shadow-lg">
-            <input
-              id="file-upload"
-              type='file'
-              accept='video/*'
-              onChange={handleFileChange}
-              className='hidden'
-            />
-            <label 
-              htmlFor="file-upload"
-              className="bg-gray-700 text-white py-2 px-8 rounded-lg cursor-pointer hover:bg-gray-500">
-              Escolher Vídeo
-            </label>
-            {file && <span className="ml-4 text-lg">{file.name}</span>}
-            <button type='submit' className='ml-4 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-400'>
-              Enviar
-            </button>
-          </form>
-          {processedVideo && (
-              <div className="flex justify-center items-center absolute top-0 left-0 w-full h-full">
-              <video
-                controls
-                src={processedVideo}
-                style={{ width: '50%', height: 'auto' }}
-                className="processed-video"
-              />
-              <button
-                onClick={handleCloseVideo}
-                className="mt-4 bg-red-500 text-white py-2 px-6 rounded-lg"
-                style={{ position: 'absolute', top: '90%', transform: 'translateX(-50%)', left: '50%' }}
-              >
-                Fechar Vídeo
-              </button>
+          <div className='flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'>
+                <h1 className='text-4xl mb-4'>Enviar Vídeo</h1>
+                <form onSubmit={handleSubmit} className="flex border-2 border-black rounded-xl items-center">
+                <input
+                  id="file-upload"
+                  type='file'
+                  accept='video/*'
+                  onChange={handleFileChange}
+                  className='hidden'
+                />
+                <label 
+                  htmlFor="file-upload"
+                  className="bg-gray-700 text-white text-lg py-2 px-4 rounded-l-lg cursor-pointer hover:text-black duration-500">
+                  Escolher Vídeo
+                </label>
+                {file && <span className="ml-4 text-lg">{file.name}</span>}
+                <button type='submit' className='bg-black text-white text-lg py-2 px-14 rounded-r-lg hover:text-gray-700 duration-500'>
+                  Enviar
+                </button>
+              </form>
+              {processedVideo && (
+                  <div className="flex justify-center items-center absolute top-0 left-0 w-full h-full">
+                  <video
+                    controls
+                    src={processedVideo}
+                    style={{ width: '50%', height: 'auto' }}
+                    className="processed-video"
+                  />
+                  <button
+                    onClick={handleCloseVideo}
+                    className="mt-4 bg-red-500 text-white py-2 px-6 rounded-lg"
+                    style={{ position: 'absolute', top: '90%', transform: 'translateX(-50%)', left: '50%' }}
+                  >
+                    Fechar Vídeo
+                  </button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+      <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} message="Your image has been uploaded and processed successfully!"/>
     </div>
   );
 };
 
-export default Predict;
+export default PredictVideo;
