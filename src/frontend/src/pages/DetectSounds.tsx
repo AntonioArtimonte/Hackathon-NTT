@@ -105,35 +105,36 @@ const DetectSounds: React.FC = () => {
           )}
           {result && (
             <div className="flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'">
-              {people ? (
+              {people ? (<div>
                 <h1 className="text-4xl mb-4 font-semibold">
-                  Não foi identificado nenhuma pessoa
+                  O drone não identificou nenhuma pessoa na localização.
                 </h1>
+                <h2 className="text-xl mb-4 ">Horário: {new Date().toLocaleString()}</h2></div>
               ) : (
                 <div>
-                  <h1 className="text-4xl mb-4">
-                    Uma pessoa foi encontrada com{" "}
-                    {audioProcessingResponse?.Peso}% de certeza{" "}
-                  </h1>
-                  <h2 className="text-xl mb-4">
-                    {" "}
-                    Latitude: {audioProcessingResponse?.LAT}º
-                  </h2>
-                  <h2 className="text-xl mb-4">
-                    {" "}
-                    Longitude: {audioProcessingResponse?.LONG}º
-                  </h2>
-                  <h2 className="text-xl mb-4">
-                    {" "}
-                    Horário: {audioProcessingResponse?.Time?.toString()}
-                  </h2>
+                  <div>
+                      <div>
+                        {audioProcessingResponse?.Peso === 100 ? (
+                          <h1 className="text-4xl mb-4">
+                          Muito provavelmente uma pessoa está nessa localização:
+                        </h1>
+                    ) : (
+                      <h1 className="text-4xl mb-4">
+                        Há chances de haver sobreviventes nessa localização:
+                    </h1>
+                )}
+                        <h2 className="text-xl mb-4">Latitude: {audioProcessingResponse?.LAT}º</h2>
+                        <h2 className="text-xl mb-4">Longitude: {audioProcessingResponse?.LONG}º</h2>
+                        <h2 className="text-xl mb-4">Horário: {audioProcessingResponse?.Time?.toString()}</h2>
+                      </div>
+                  </div>
                 </div>
               )}
             </div>
           )}
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 
