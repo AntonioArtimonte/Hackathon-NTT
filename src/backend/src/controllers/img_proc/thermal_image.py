@@ -89,7 +89,7 @@ async def process_thermal(data: ImageData):
                     break
         else:
             return {
-                "Person": "Nihil"
+                "Proc_img": annotated_image_base64
             }
         
 

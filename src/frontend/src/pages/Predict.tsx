@@ -287,6 +287,7 @@ const Predict: React.FC = () => {
 
       {/* Main container for the cards aligned in a line */}
       <div className="flex flex-grow justify-center items-center">
+
         <div className={`carousel-container ${isSubmitting ? 'scale-75' : ''} mb-24`}>
           {/* Enviar Vídeo Card */}
           <div className="card flex flex-col justify-center items-center bg-white rounded-2xl p-10 shadow-[0_0_100px_rgba(255,255,255,0.5)]">
@@ -325,6 +326,7 @@ const Predict: React.FC = () => {
                 >
                   Fechar Vídeo
                 </button>
+
               </div>
             )}
           </div>

@@ -55,11 +55,19 @@ async def process_image(data: ImageData):
         # Decodifica a imagem em formato base64
         image_data = base64.b64decode(data.image)
         np_arr = np.frombuffer(image_data, np.uint8)
-        image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        image = cv2.imdecode(np_arr, cv2.IMREAD_UNCHANGED)
 
         # Verifica se a imagem veio corretamente
         if image is None:
             raise HTTPException(status_code=400, detail="Error loading image.")
+        
+        # Se a imagem tiver um canal alfa, converta para BGR (remove o alfa)
+        if image.shape[2] == 4:
+            image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+
+        if image is None:
+            raise HTTPException(status_code=400, detail="Failed to load the image. Unsupported format.")
+
 
         # Roda o YoloV8 na imagem
         results = model(image, conf=0.30)
@@ -81,7 +89,7 @@ async def process_image(data: ImageData):
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 new_entry = {
                     "ID": id,
-                    "LAT": "18.41294",
+                    "LAT": "48.41294",
                     "LONG": "19.32131",
                     "Proc_img": annotated_image_base64,
                     "Survivors": result_var,
@@ -91,7 +99,7 @@ async def process_image(data: ImageData):
                     
         else:
             return {
-                "Person": "Nihil"
+                "Proc_img": annotated_image_base64
             }
         
 
@@ -102,7 +110,7 @@ async def process_image(data: ImageData):
 
         return {
             "ID": id,
-            "LAT": "18.41294",
+            "LAT": "48.41294",
             "LONG": "19.32131",
             "Proc_img": annotated_image_base64,
             "Survivors": result_var,

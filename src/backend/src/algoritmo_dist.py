@@ -66,18 +66,16 @@ class WeightedTSP:
 
         if solution:
             index = routing.Start(0)
-            plan_output = 'Rota ótima considerando prioridade pelo peso:\n'
+            coordinates_sequence = []
             route_distance = 0
             while not routing.IsEnd(index):
                 node_index = manager.IndexToNode(index)
-                plan_output += ' -> Local ID {} (Peso: {})'.format(
-                    data['locations'][node_index]['ID'], 
-                    data['locations'][node_index]['Peso']
-                )
+                location = data['locations'][node_index]
+                coordinates_sequence.append(f"{location['LAT']},{location['LONG']}")
                 previous_index = index
                 index = solution.Value(routing.NextVar(index))
                 route_distance += routing.GetArcCostForVehicle(previous_index, index, 0)
-            plan_output += '\nDistância total: {} metros\n'.format(route_distance)
-            return plan_output
+            
+            return ';'.join(coordinates_sequence)
         else:
             return 'Nenhuma solução encontrada!'
