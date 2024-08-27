@@ -14,14 +14,14 @@ async def process_image_endpoint(data: ImageData = Body(...)):
         raise HTTPException(status_code=500, detail=str(e))
     
 @router.post("/process_thermal", status_code=200)
-async def process_image_endpoint(data: ImageData = Body(...)):
+async def process_thermal_endpoint(data: ImageData = Body(...)):
     try:
         return await process_thermal(data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
 @router.post("/process_river", status_code=200)
-async def process_river(data: ImageData = Body(...)):
+async def process_river_endpoint(data: ImageData = Body(...)):
     try:
         return await process_river(data)
     except Exception as e:
