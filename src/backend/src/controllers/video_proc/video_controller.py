@@ -11,6 +11,7 @@ from datetime import datetime
 import subprocess
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.video.fx.all import resize
+import os
 
 # Carregando modelos
 model = YOLO("../yoloModel/antoniomodel.pt")
@@ -23,24 +24,37 @@ async def process_video(file: UploadFile):
     try:
         print(f"Video '{file.filename}' recebido no controler")
 
-        video_temp_file = f"/tmp/{file.filename}"
-        output_file = f"/tmp/output_annotated.mp4"
+        output_dir = "processed_videos"
+        os.makedirs(output_dir, exist_ok=True)
+
+        video_temp_file = os.path.join(output_dir, file.filename)
+        output_file = os.path.join(output_dir, "output_annotated.mp4")
+        output_file_2 = os.path.join(output_dir, "output_annotated_2.mp4")
+
         with open(video_temp_file, "wb") as f:
             f.write(await file.read())
 
         cap = cv2.VideoCapture(video_temp_file)
 
-        # CHeckar se o video foi processado corretamente
+        # Verificar se o vídeo foi aberto corretamente
         if not cap.isOpened():
             raise HTTPException(status_code=400, detail="Erro ao abrir o vídeo.")
         
+        # Obter FPS e configurar fallback
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        if fps is None or fps == 0:
+            fps = 30
+        print(f"FPS detectado: {fps}")
+
         # Codificador para o vídeo anotado
-        fourcc = cv2.VideoWriter_fourcc(*'avc1')
-        # out = cv2.VideoWriter(output_file, fourcc, 20.0, (int(cap.get(3)), int(cap.get(4))))
-        out = cv2.VideoWriter(output_file, fourcc, cap.get(cv2.CAP_PROP_FPS), 
-                              (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
-        
-        result_var = "Nada detectado"
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        if width == 0 or height == 0:
+            raise HTTPException(status_code=500, detail="Erro ao obter as dimensões do vídeo.")
+        print(f"Resolução: {width}x{height}")
+
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        out = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
 
         # Processando video
         while cap.isOpened():
@@ -55,15 +69,23 @@ async def process_video(file: UploadFile):
         cap.release()
         out.release()
 
-        output_file_2 = f"/tmp/output_annotated_2.mp4"
+        # Verificar se o arquivo foi criado corretamente
+        if not os.path.exists(output_file) or os.path.getsize(output_file) == 0:
+            raise HTTPException(status_code=500, detail="Erro ao criar o arquivo de vídeo.")
 
-        # return StreamingResponse(iterfile(), media_type="video/mp4")
+        print(f"Arquivo de vídeo anotado criado: {output_file}")
 
-        # Converter para H.264
         clip = VideoFileClip(output_file)
-        clip.write_videofile(output_file_2, codec="libx264", audio_codec="aac", temp_audiofile="temp-audio.m4a", remove_temp=True, threads=4)
+    
+        # Verificar propriedades do vídeo
+        print(f"Duração do vídeo: {clip.duration}")
+        print(f"FPS do vídeo: {clip.fps}")
+
+        clip.write_videofile(output_file_2, codec="libx264", audio=False, preset="medium", threads=4)
+        print(f"Arquivo de vídeo final criado: {output_file_2}")
 
         return FileResponse(output_file_2, media_type='video/mp4')
-                
+             
     except Exception as e:
+        print(f"Erro durante o processamento: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))

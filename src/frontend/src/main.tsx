@@ -7,7 +7,7 @@ import Predict from './pages/Predict'
 import PredictVideo from './pages/PredictVideo'
 import Gallery from './pages/Gallery'
 import './index.css'
-import DetectSounds from './pages/DetectSounds/DetectSounds'
+import DetectSounds from './pages/DetectSounds'
 import GenerateRoutes from './pages/GenerateRoutes'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
