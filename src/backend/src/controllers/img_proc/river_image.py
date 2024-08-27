@@ -8,8 +8,8 @@ from ultralytics import YOLO
 import tinydb
 from datetime import datetime
 
-# Carrega o modelo Yolo pré treinado
-model = YOLO("../yoloModel/riverDetect.pt")
+# Carrega o modelo Yolo pré-treinado
+model = YOLO("../yoloModel/river.pt")
 
 # Abre a base de dados
 
@@ -24,22 +24,17 @@ def get_next_id():
         return 1
 
 
-# Função para converter resultados em um JSON com um limite minimo de 0.7 de "confidence"
+# Função para converter resultados de segmentação em um JSON com um limite minimo de 0.7 de "confidence"
 def results_to_json(results, model, confidence_threshold=0.3):
     detections = []
     for result in results:
-        for box in result.boxes:
-            if float(box.conf) >= confidence_threshold:
+        for mask in result.masks:
+            if float(mask.conf) >= confidence_threshold:
                 detection = {
-                    "class": int(box.cls),
-                    "label": model.names[int(box.cls)],
-                    "confidence": float(box.conf),
-                    "box": {
-                        "x_center": float(box.xywh[0][0]),
-                        "y_center": float(box.xywh[0][1]),
-                        "width": float(box.xywh[0][2]),
-                        "height": float(box.xywh[0][3]),
-                    },
+                    "class": int(mask.cls),
+                    "label": model.names[int(mask.cls)],
+                    "confidence": float(mask.conf),
+                    "segmentation": mask.data.tolist()  # Convert segmentation mask to a list
                 }
                 detections.append(detection)
     return json.dumps(detections, indent=4)
@@ -48,7 +43,8 @@ def results_to_json(results, model, confidence_threshold=0.3):
 class ImageData(BaseModel):
     image: str
 
-async def process_river_image(data: ImageData):
+
+async def process_river(data: ImageData):
     try:
         db = tinydb.TinyDB("database/db.json")
         id = get_next_id()
@@ -72,9 +68,9 @@ async def process_river_image(data: ImageData):
         annotated_image_base64 = base64.b64encode(buffer).decode("utf-8")
 
         result_var = "Nada detectado"
-        if results and results[0].boxes:
-            for box in results[0].boxes:
-                if model.names[int(box.cls)] == "person":
+        if results and results[0].masks:
+            for mask in results[0].masks:
+                if model.names[int(mask.cls)] == "water":
                     result_var = "Detectado sobrevivente"
                     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     new_entry = {
@@ -83,7 +79,7 @@ async def process_river_image(data: ImageData):
                         "LONG": "19.32131",
                         "Proc_img": annotated_image_base64,
                         "Survivors": result_var,
-                        "Peso": (float(box.conf) * 100),
+                        "Peso": (float(mask.conf) * 100),
                         "Time": current_time,
                     }
                     break
@@ -91,10 +87,8 @@ async def process_river_image(data: ImageData):
             return {
                 "Proc_img": annotated_image_base64
             }
-        
 
         # Salva na base de dados
-
         db.insert(new_entry)
         db.close()
 
@@ -104,7 +98,7 @@ async def process_river_image(data: ImageData):
             "LONG": "19.32131",
             "Proc_img": annotated_image_base64,
             "Survivors": result_var,
-            "Peso": (float(box.conf) * 100),
+            "Peso": (float(mask.conf) * 100),
             "Time": current_time,
         }
     except Exception as e:
