@@ -118,7 +118,7 @@ const Predict: React.FC = () => {
 
         if (response.ok) {
           const responseData = await response.json();
-          setAnnotatedThermalImage(responseData.Proc_img);
+          setAnnotatedImage(responseData.Proc_img);
           setIsModalOpen(true); // Exibe o modal de sucesso
 
           // Fecha o modal após 1,5 segundos, depois exibe o cartão de imagem processada
@@ -132,7 +132,7 @@ const Predict: React.FC = () => {
             }, 300); // Pequeno atraso para permitir que o modal feche antes de exibir o cartão
           }, 1500);
         } else {
-          console.error('Falha ao fazer upload da imagem termal.');
+          console.error('Falha ao fazer upload da imagem.');
         }
       } catch (error) {
         console.error('Erro:', error);
