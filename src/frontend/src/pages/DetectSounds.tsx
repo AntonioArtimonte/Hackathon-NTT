@@ -4,11 +4,21 @@ import Button from "../components/Button";
 
 import { Buffer } from "buffer";
 
-
+interface AudioProcessingResponse {
+  ID: number;
+  LAT: number;
+  LONG: number;
+  Survivors: string;
+  Peso: number;
+  Time: Date;
+}
 
 const DetectSounds: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState(false);
+  const [people, setPeople] = useState(false);
+  const [audioProcessingResponse, setAudioProcessingResponse] =
+    useState<AudioProcessingResponse | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -32,10 +42,16 @@ const DetectSounds: React.FC = () => {
           body: JSON.stringify({ audio_base64: fileBase64 }),
         }
       );
-
       if (response.ok) {
-        console.log(await response.json()); // Retrieve and log the response body
-        console.log("Audio uploaded successfully!");
+        // console.log(await response.json()); // Retrieve and log the response body
+        // console.log("Audio uploaded successfully!");
+        setResult(true);
+        if ("people" in response) {
+          setPeople(true);
+        }
+        else{
+          setAudioProcessingResponse(await response.json());
+        }
       } else {
         console.error("Failed to upload audio.");
       }
@@ -50,8 +66,9 @@ const DetectSounds: React.FC = () => {
 
       <div className="flex flex-grow justify-center items-center">
         <div className="relative w-full h-full flex justify-center items-center">
+          {!result && (
             <div className="flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'">
-              <h1 className="text-4xl mb-4">Envie o áudio</h1>
+              <h1 className="text-4xl mb-4 font-black">Envie o áudio</h1>
               <form
                 onSubmit={handleSubmit}
                 className="flex border-2 border-black rounded-xl items-center"
@@ -82,9 +99,21 @@ const DetectSounds: React.FC = () => {
                 </button>
               </form>
             </div>
-          </div>
+          )}
+          {result && (
+            <div className="flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'">
+              {people ? (<h1 className="text-4xl mb-4">Não foi identificado nenhuma pessoa</h1>):
+              (<div><h1 className="text-4xl mb-4">Uma pessoa foi encontrada com {audioProcessingResponse?.Peso}% de certeza </h1>
+              <h2 className="text-xl mb-4"> Latitude: {audioProcessingResponse?.LAT}º</h2>
+              <h2 className="text-xl mb-4"> Longitude: {audioProcessingResponse?.LONG}º</h2>
+              <h2 className="text-xl mb-4"> Horário: {audioProcessingResponse?.Time?.toString()}</h2>
+              </div>)}
+            </div>
+
+          )}
         </div>
       </div>
+    </div>
   );
 };
 
