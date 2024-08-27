@@ -14,7 +14,7 @@ from moviepy.video.fx.all import resize
 import os
 
 # Carregando modelos
-model = YOLO("../yoloModel/ModelPcLab300Epochs.pt")
+model = YOLO("../yoloModel/antoniomodel.pt")
 
 class VideoData(BaseModel):
     video: str
