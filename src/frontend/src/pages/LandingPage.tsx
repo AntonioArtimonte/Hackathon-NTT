@@ -58,11 +58,19 @@ const LandingPage: React.FC = () => {
           backgroundColor: 'black', // Light gray background
         }}
       >
-        <h1 style={{ textAlign: 'center', paddingTop: '20vh' }}>Additional Content</h1>
-        <h1 className='flex flex-col text-center justify-center items-center gap-y-20 text-white text-7xl ' onClick={() => navigate('/main')}>
-          <img src="/coruja.svg" alt="" className='w-1/3 hover:scale-105 duration-1000 cursor-pointer'/>
-          Veja o que seu olhos não veem
-        </h1>
+        <h1 style={{ textAlign: 'center', paddingTop: '35vh' }}>Additional Content</h1>
+        <div className="flex justify-between w-full">
+
+          <div className="flex flex-col justify-center w-1/2 h-full text-center items-center">
+            <img src="/coruja3.svg" alt="" className='mb-36 scale-[1.55] hover:scale-[1.65] duration-500'/>
+            <h1 className="text-white text-4xl font-bold">Veja o que seus olhos não veem</h1>
+          </div>
+
+
+          <div className="flex flex-col justify-center w-1/2 items-center">
+            <h1 className="text-white w-3/4 text-justify leading-relaxed text-4xl font-bold">O Owl Sight não apenas vê — ele age, trazendo tecnologia e humanidade juntas em uma única força poderosa. Quando o caos ameaça dominar, nós enxergamos além, garantindo que a segurança esteja sempre à vista.</h1>
+          </div>
+        </div>
       </div>
     </div>
   );
