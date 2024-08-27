@@ -121,9 +121,9 @@ const PredictVideo: React.FC = () => {
                     className='hidden'
                   />
                   {file && (
-                    <p className="text-black py-2 px-4">
-                      <div className="text-lg">{file.name}</div>
-                    </p>
+                    <div className="text-black py-2 px-4">
+                      file.name
+                    </div>
                   )}
                   <button type='submit' className='bg-black text-white text-lg py-2 px-10 rounded-r-lg hover:text-gray-700 duration-500'>
                     Enviar
