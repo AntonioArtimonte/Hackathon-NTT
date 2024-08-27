@@ -43,14 +43,17 @@ const DetectSounds: React.FC = () => {
         }
       );
       if (response.ok) {
-        // console.log(await response.json()); // Retrieve and log the response body
-        // console.log("Audio uploaded successfully!");
+        const responseData = await response.json(); // Store the response body in a variable
+        console.log(responseData); // Log the response body
+
         setResult(true);
-        if ("people" in response) {
+
+        if ("people" in responseData) {
+          console.log("helo");
           setPeople(true);
-        }
-        else{
-          setAudioProcessingResponse(await response.json());
+        } else {
+          console.log("godot");
+          setAudioProcessingResponse(responseData);
         }
       } else {
         console.error("Failed to upload audio.");
@@ -68,7 +71,7 @@ const DetectSounds: React.FC = () => {
         <div className="relative w-full h-full flex justify-center items-center">
           {!result && (
             <div className="flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'">
-              <h1 className="text-4xl mb-4 font-black">Envie o áudio</h1>
+              <h1 className="text-4xl mb-4 font-bold">Envie o áudio</h1>
               <form
                 onSubmit={handleSubmit}
                 className="flex border-2 border-black rounded-xl items-center"
@@ -102,14 +105,31 @@ const DetectSounds: React.FC = () => {
           )}
           {result && (
             <div className="flex flex-col justify-center items-center bg-white rounded-2xl p-10 mb-24 shadow-[0_0_100px_rgba(255,255,255,0.5)]'">
-              {people ? (<h1 className="text-4xl mb-4">Não foi identificado nenhuma pessoa</h1>):
-              (<div><h1 className="text-4xl mb-4">Uma pessoa foi encontrada com {audioProcessingResponse?.Peso}% de certeza </h1>
-              <h2 className="text-xl mb-4"> Latitude: {audioProcessingResponse?.LAT}º</h2>
-              <h2 className="text-xl mb-4"> Longitude: {audioProcessingResponse?.LONG}º</h2>
-              <h2 className="text-xl mb-4"> Horário: {audioProcessingResponse?.Time?.toString()}</h2>
-              </div>)}
+              {people ? (
+                <h1 className="text-4xl mb-4 font-semibold">
+                  Não foi identificado nenhuma pessoa
+                </h1>
+              ) : (
+                <div>
+                  <h1 className="text-4xl mb-4">
+                    Uma pessoa foi encontrada com{" "}
+                    {audioProcessingResponse?.Peso}% de certeza{" "}
+                  </h1>
+                  <h2 className="text-xl mb-4">
+                    {" "}
+                    Latitude: {audioProcessingResponse?.LAT}º
+                  </h2>
+                  <h2 className="text-xl mb-4">
+                    {" "}
+                    Longitude: {audioProcessingResponse?.LONG}º
+                  </h2>
+                  <h2 className="text-xl mb-4">
+                    {" "}
+                    Horário: {audioProcessingResponse?.Time?.toString()}
+                  </h2>
+                </div>
+              )}
             </div>
-
           )}
         </div>
       </div>
